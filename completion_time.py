@@ -1,6 +1,6 @@
 from credentials import REDSHIFT_SETTINGS
-import psycopg2
 import datetime
+import psycopg2
 from psycopg2 import sql
 from tqdm import tqdm
 
