@@ -11,3 +11,4 @@ git-deploy
 test.py
 porting_pulse.xlsx
 /PortReport*/
+.DS_Store
