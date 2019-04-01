@@ -1,0 +1,13 @@
+*.pyc 
+*.csv
+*.jar
+*.xlsx
+*.txt
+*.pdf
+*.xls
+wm_portingcreds.py
+credentials.py
+git-deploy
+test.py
+porting_pulse.xlsx
+/PortReport*/
