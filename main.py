@@ -1,6 +1,7 @@
 import os
 import pp2
 import completion_time
+import crd_percent
 
 if __name__ == "__main__":
 
@@ -16,5 +17,6 @@ if __name__ == "__main__":
     month_choice = str(input('Month Report? [y/n]'))
     if month_choice.lower() == 'y':
         comp_time = completion_time.main()
-        pp2.write_monthly(select_month,total,comp_time,avg,mtd)
+        crd = crd_percent.main(select_month)
+        pp2.write_monthly(select_month,total,comp_time,avg,mtd,crd)
         pp2.plotty_monthly(total,avg,final_values,select_month)

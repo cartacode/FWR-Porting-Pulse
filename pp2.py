@@ -202,7 +202,7 @@ def month_trending(previous_month,select_month):
         vip_this_last += (vip_this_month,vip_pm) #tuple of VIP this month quantity, last month quantity
     return month_trend, trend_list, vip_this_last
 
-def write_monthly(select_month,total,comp_time,avg,mtd):
+def write_monthly(select_month,total,comp_time,avg,mtd,crd):
     """write monthly report"""
 
     previous_month = prev_month(select_month)
@@ -211,7 +211,7 @@ def write_monthly(select_month,total,comp_time,avg,mtd):
     with open(f"PortReport{select_month}/{select_month}-report.txt", "w") as file:
         file.write(f'YTD total port ins: {total}\nYTD average days per port(weekends included): {round(comp_time,2)}\n'
         + f'Average per week year to date: {avg}\n--\n{select_month} total: {mtd}\nTrend compared to'
-        + f' last month: {round(month_trend,2)}\n--\n')
+        + f' last month: {round(month_trend,2)}\n--\nPercentage of CRDs hit for {select_month}: {crd}\n--\n')
         x = 1
         y = 0
         z = 0
