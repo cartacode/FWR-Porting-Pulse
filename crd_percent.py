@@ -3,6 +3,7 @@ import datetime
 import psycopg2
 from psycopg2 import sql
 from tqdm import tqdm
+import credentials
 
 def redshift_connector():
     """connect to redshift using credentials.py"""
@@ -72,7 +73,20 @@ def get_perc(datelist):
         else:
             score['total'] +=1
     return round(score['hit']/score['total'], 2)
-    
+
+def insert_sql(perc,select_month):
+    """add our data to our tracking database"""
+
+    conn = psycopg2.connect(database = credentials.db_name, user = credentials.postgres_user, password = credentials.postgres_pw)
+    cur = conn.cursor()
+    query = """
+    UPDATE p_p SET month_crd_hit = %s WHERE month_name = %s;
+    """
+    variables = (perc,select_month,)
+    cur.execute(query,variables)
+    conn.commit()
+    conn.close()
+
 def main(select_month):
     """main func ONLY INTENDED FOR USE IN PP find normal version in tools dir"""
 
@@ -82,7 +96,9 @@ def main(select_month):
         wildcard = date
         for each in get(wildcard):
             datelist.append(each) #append each days queried info to our list
-    return get_perc(datelist)
+    perc = get_perc(datelist)
+    insert_sql(perc,select_month)
+    return perc
     
 if __name__ == "__main__":
     main(select_month)

@@ -3,6 +3,7 @@ import datetime
 import psycopg2
 from psycopg2 import sql
 from tqdm import tqdm
+import credentials
 
 def redshift_connector():
     """connect to redshift using credentials.py"""
@@ -69,7 +70,21 @@ def get_average(datelist):
     ports = int(len(datelist)/2)  #ports number is count of our creation and completion dates divided by two
     return round(total_days/ports, 2)
 
-def main():
+
+def insert_sql(avg,select_month): #select_month is passed from main.py version ONLY WORKS in connection with main.py
+    """add our data to our tracking database"""
+
+    conn = psycopg2.connect(database = credentials.db_name, user = credentials.postgres_user, password = credentials.postgres_pw)
+    cur = conn.cursor()
+    query = """
+    UPDATE p_p SET ytd_comp_time = %s WHERE month_name = %s;
+    """
+    variables = (avg,select_month,)
+    cur.execute(query,variables)
+    conn.commit()
+    conn.close()
+
+def main(select_month): #this version is ONLY FOR USE IN PP, select_month is passed from main.py
     """return average days per S->C for port-ins since begininning of year to today 2019"""
     
     start_date, diff = diff_get()
@@ -78,8 +93,9 @@ def main():
         wildcard = date
         for each in get(wildcard):
             datelist.append(each) #append each days queried info to our list
-    return get_average(datelist)
+    avg = get_average(datelist)
+    insert_sql(avg,select_month)
 
 if __name__ == "__main__":
-    main()
+    main(select_month)
  
