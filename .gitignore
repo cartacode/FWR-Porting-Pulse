@@ -5,6 +5,7 @@
 *.txt
 *.pdf
 *.xls
+*.ipynb
 wm_portingcreds.py
 credentials.py
 git-deploy
