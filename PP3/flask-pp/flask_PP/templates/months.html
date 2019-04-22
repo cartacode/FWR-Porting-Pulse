@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+<table class="table table-hover">
+        <thead>
+          <tr><strong>
+            <th scope="col">Week 1</th>
+            <th scope="col">Week 2</th>
+            <th scope="col">Week 3</th>
+            <th scope="col">Week 4</th>
+            <th scope="col">Week 5</th>
+            <th scope="col">Month Total</th>
+            <th scope="col">YTD</th>
+          </tr></strong>
+        </thead>
+        <tbody>
+                <tr class="dataframe td">
+                <td>{{data['Week 1']}}</td>
+                <td>{{data['Week 2']}}</td>
+                <td>{{data['Week 3']}}</td>
+                <td>{{data['Week 4']}}</td>
+                <td>{{data['Week 5']}}</td>
+                <td>{{data['Month Total']}}</td>
+                <td>{{data['Year To Date']}}</td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+    <div class="col-md-4">
+        <div class="content-section">
+        <h3><strong>YTD Metrics</strong></h3>
+        <p class='text-muted'>Some year to date metrics.
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Total Port-Ins: <strong>{{data['ytd_total']}}</strong>  </li>
+                <li class="list-group-item list-group-item-light">Average Port-Ins Per Month: <strong>{{data['YTD Avg Month']}}</strong> </li>
+                <li class="list-group-item list-group-item-light">Average Length of Port (weekends/holidays included): <strong>{{data['YTD Completion Time']}} days</strong></li>
+                <li class="list-group-item list-group-item-light">YTD Requested Completion Dates Hit: <strong>{{data['YTD CRD']}}%</strong></li>
+            </ul>
+        </p>
+        </div>
+    </div>
+    <div class="col-md-6">
+      {{btn.submit(class="btn btn-info")}}
+    </div>
+{% endblock content %}
