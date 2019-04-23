@@ -1,35 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
-      <div>
-        <div class="card shadow mb-4">
-          <!-- Card Header - Dropdown -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h2 class="navbar-brand mr-4"><strong>VIP Placeholder</strong></h2>
-            <div class="dropdown no-arrow">
-              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                <div class="dropdown-header">Choose from VIPs here:</div>
-                <strong><a class="dropdown-item" href="#">Weave</a>
-                <a class="dropdown-item" href="#">Zang</a>
-                <a class="dropdown-item" href="#">SignalWire</a>
-                <a class="dropdown-item" href="#">Vow</a>
-                <a class="dropdown-item" href="#">Expectel</a>
-                <a class="dropdown-item" href="#">Zen</a>
-                <a class="dropdown-item" href="#">Intulse</a></strong>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Or see all here</a>
-              </div>
-            </div>
-          </div>
-          <div class="dataframe td">
-            <div class="chart-area">
-              <canvas id="myAreaChart"></canvas>
-            </div>
-          </div>
+<div class="btn-group-horizontal">
+    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Weave</a>
+    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Zang</a>
+    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>SignalWire</a>
+    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Zen</a>
+    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Vow</a>
+    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Intulse</a>
+  </div>  
+<p>
+</p>
+<div class="container">
+    <h1>VIP Porting Pulse</h1> 
+    <div class="container-fluid shadow">
+    </div>
+    <div>
+        <div class="content-section shadow">
+            <h3><strong>VIP Metrics</strong></h3>
+            <p class='text-muted'>Some VIP metrics.
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Total Port-Ins: <strong>{{data['ytd_total']}}</strong>  </li>
+                    <li class="list-group-item list-group-item-light">Average Port-Ins Per Month: <strong>{{data['YTD Avg Month']}}</strong> </li>
+                    <li class="list-group-item list-group-item-light">Average Length of Port (weekends/holidays included): <strong>{{data['YTD Completion Time']}} days</strong></li>
+                    <li class="list-group-item list-group-item-light">YTD Requested Completion Dates Hit: <strong>{{data['YTD CRD']}}%</strong></li>
+                </ul>
+            </p>
         </div>
-      </div>
-
-
+      <div>
+        <a href={{ url_for('general') }} class="btn btn-info shadow">
+          <i></i>Generate Report!</a>
+    </div>      
+  <p>
+  </p>
 {% endblock content %}

@@ -6,6 +6,7 @@
 *.pdf
 *.xls
 *.ipynb
+*.pyc
 wm_portingcreds.py
 credentials.py
 git-deploy
@@ -13,4 +14,6 @@ test.py
 porting_pulse.xlsx
 /PortReport*/
 .DS_Store
-__pycache__/
+*/__pycache__/*
+/.DS_Store
+local/

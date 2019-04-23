@@ -8,6 +8,3 @@ class InputBar(FlaskForm):
                 ('October', 'October'), ('November', 'November'), ('December', 'December')]
     field = SelectField(u'Month', choices = choices, coerce=str, default='All')
     submit = SubmitField('Go!')
-
-class PlotGen(FlaskForm):
-    submit = SubmitField('Generate Plot!')

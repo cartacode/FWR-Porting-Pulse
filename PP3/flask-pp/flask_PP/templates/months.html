@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 <table class="table table-hover">
+    <div class = "body">
+       <strong>{{data['Month']}}</strong>
+       <p>
+       </p>
+    </div>
         <thead>
           <tr><strong>
             <th scope="col">Week 1</th>
@@ -13,7 +18,7 @@
           </tr></strong>
         </thead>
         <tbody>
-                <tr class="dataframe td">
+                <tr class="dataframe td shadow hover">
                 <td>{{data['Week 1']}}</td>
                 <td>{{data['Week 2']}}</td>
                 <td>{{data['Week 3']}}</td>
@@ -37,8 +42,5 @@
             </ul>
         </p>
         </div>
-    </div>
-    <div class="col-md-6">
-      {{btn.submit(class="btn btn-info")}}
     </div>
 {% endblock content %}

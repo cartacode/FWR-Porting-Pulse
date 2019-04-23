@@ -6,6 +6,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: #444444;
+  font-size: 2em;
 }
 
 .bg-steel {
@@ -26,14 +27,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .content-section {
   background: #91ddeb;
-  padding: 10px 10px;
+  padding: 5px 5px;
   border: 1px solid #dddddd;
-  border-radius: 3px;
+  border-radius: 10px;
   margin-bottom: 20px;
 }
 
 .article-title {
   color: #444444;
+  font-size: 2em;
 }
 
 a.article-title:hover {
@@ -43,12 +45,6 @@ a.article-title:hover {
 
 .article-content {
   white-space: pre-line;
-}
-
-.article-img {
-  height: 65px;
-  width: 80px;
-  margin-right: 16px;
 }
 
 .article-metadata {
@@ -62,17 +58,8 @@ a.article-title:hover {
   text-decoration: none;
 }
 
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-}
-
-.account-img {
-  height: 125px;
-  width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
+.right-button {
+  vertical-align: right;
 }
 
 .account-heading {
@@ -83,12 +70,12 @@ table.dataframe, .dataframe th, .dataframe td {
   border-bottom: 1px solid #C8C8C8;
   border-collapse: collapse;
   text-align: left;
-  padding: 15px;
+  padding: 20px;
   margin-bottom: 40px;
-  font-size: 1.05em;
+  font-size: 1.03em;
   background-color: #91ddeb;
   color: #000000;
   white-space: pre-line;
   text-decoration: none;
-  letter-spacing: .05em;
+  letter-spacing: .03em;
 }

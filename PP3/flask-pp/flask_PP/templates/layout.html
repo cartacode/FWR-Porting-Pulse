@@ -16,7 +16,7 @@
 </head>
 <body>
   <header class="site-header">
-          <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+          <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top shadow-lg">
             <div class="container">
               <a class="navbar-brand mr-4" href="{{ url_for('general') }}">FWR Porting Pulse</a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,12 +52,15 @@
                             {% endif %}
                             {% endwith %}
                             {% block content %}{% endblock %}
+                            <div>
+                                  <a href={{ url_for('vip') }} class="btn btn-info shadow">
+                                  <i></i>Generate Plot!</a>
+                            </div>
+                          </div>
                         </div>
                         </div>
-                        </div>
-                        </div>
-                    </main>
-
+                      </div>
+                    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

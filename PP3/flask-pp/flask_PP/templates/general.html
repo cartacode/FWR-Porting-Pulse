@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <table class="table table-hover">
     <thead>
         <th scope="col">Month Name</th>
@@ -10,29 +9,33 @@
         <th scope="col">Week 4</th>
         <th scope="col">Week 5</th>
         <th scope="col">Month Total</th>
-        <th scope="col">Year Total</th>
         <th scope="col">CRD%</th>
     </thead>
-        <tr class="dataframe td">
+    <tbody class="shadow hover">
+        <tr class="dataframe td shadow">
         {{ df| safe }} 
         </tr>
     </tbody>    
 </table>
 </div>
 <div class="col-md-4">
-        <div class="content-section">
-        <h3><strong>YTD Metrics</strong></h3>
-        <p class='text-muted'>Some year to date metrics.
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Total Port-Ins: <strong>{{data['ytd_total']}}</strong>  </li>
-                <li class="list-group-item list-group-item-light">Average Port-Ins Per Month: <strong>{{data['YTD Avg Month']}}</strong> </li>
-                <li class="list-group-item list-group-item-light">Average Length of Port (weekends/holidays included): <strong>{{data['YTD Completion Time']}} days</strong></li>
-                <li class="list-group-item list-group-item-light">YTD Requested Completion Dates Hit: <strong>{{data['YTD CRD']}}%</strong></li>
-            </ul>
-        </p>
-        </div>
+            <div class="content-section shadow">
+                <h3><strong>YTD Metrics</strong></h3>
+                <p class='text-muted'>Some year to date metrics.
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light">Total Port-Ins: <strong>{{data['ytd_total']}}</strong>  </li>
+                        <li class="list-group-item list-group-item-light">Average Port-Ins Per Month: <strong>{{data['YTD Avg Month']}}</strong> </li>
+                        <li class="list-group-item list-group-item-light">Average Length of Port (weekends/holidays included): <strong>{{data['YTD Completion Time']}} days</strong></li>
+                        <li class="list-group-item list-group-item-light">YTD Requested Completion Dates Hit: <strong>{{data['YTD CRD']}}%</strong></li>
+                    </ul>
+                </p>
+            </div>
+            <p>
+            </p>
+            <div class="col-xs-6">      
+                    <a href={{ url_for('ytd_report') }} class="btn btn-info shadow md-6">
+                      <i></i>Generate Report!</a>
+            </div>
     </div>
-    <div class="col-md-6">
-        {{btn.submit(class="btn btn-info")}}
-    </div>
+</div>
 {% endblock content %}
