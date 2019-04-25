@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="btn-group-horizontal">
-    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Weave</a>
-    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Zang</a>
-    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>SignalWire</a>
-    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Zen</a>
-    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Vow</a>
-    <a href={{ url_for('general') }} class="btn btn-info shadow"></i>Intulse</a>
+    <a></i>{{btns.weave(class="btn btn-info shadow")}}</a>
+    <a></i>{{btns.zang(class="btn btn-info shadow")}}</a>
+    <a></i>{{btns.signalwire(class="btn btn-info shadow")}}</a>
+    <a></i>{{btns.vow(class="btn btn-info shadow")}}</a>
+    <a></i>{{btns.zen(class="btn btn-info shadow")}}</a>
+    <a></i>{{btns.expectel(class="btn btn-info shadow")}}</a>
+    <a></i>{{btns.intulse(class="btn btn-info shadow")}}</a>
   </div>  
 <p>
 </p>
@@ -17,18 +18,19 @@
     <div>
         <div class="content-section shadow">
             <h3><strong>VIP Metrics</strong></h3>
-            <p class='text-muted'>Some VIP metrics.
+            <p class='text-muted'>Some <strong>{{ data['name'] }}</strong> porting metrics.
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Total Port-Ins: <strong>{{data['ytd_total']}}</strong>  </li>
-                    <li class="list-group-item list-group-item-light">Average Port-Ins Per Month: <strong>{{data['YTD Avg Month']}}</strong> </li>
-                    <li class="list-group-item list-group-item-light">Average Length of Port (weekends/holidays included): <strong>{{data['YTD Completion Time']}} days</strong></li>
-                    <li class="list-group-item list-group-item-light">YTD Requested Completion Dates Hit: <strong>{{data['YTD CRD']}}%</strong></li>
+                    <li class="list-group-item list-group-item-light">Current Month: <strong>{{ data['curr_month'] }} Port-Ins</strong>  </li>
+                    <li class="list-group-item list-group-item-light">Past Month: <strong>{{ data['past_month'] }} Port-Ins</strong> </li>
+                    <li class="list-group-item list-group-item-light">Month to Month Trend [+/-]: <strong>{{ data['diff'] }}%</strong></li>
+                    <li class="list-group-item list-group-item-light">Average: <strong>{{ data['average'] }} Port-Ins Per Month</strong></li>
+                    <li class="list-group-item list-group-item-light">Total: <strong>{{ data['total'] }} YTD</strong></li>
                 </ul>
             </p>
         </div>
       <div>
-        <a href={{ url_for('general') }} class="btn btn-info shadow">
-          <i></i>Generate Report!</a>
+        <a href={{ url_for('vip_report') }} class="btn btn-info shadow">
+          <i></i>Generate VIP Report!</a>
     </div>      
   <p>
   </p>
