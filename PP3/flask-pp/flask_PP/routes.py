@@ -16,6 +16,7 @@ GENERAL/ALL
 @app.route('/general', methods = ['GET','POST'])
 def general():
 
+    bar_labels, bar_values, bar_colors = General.bar_gen()
     form = InputBar()
     choice = form.field.data
     df = General.all_data(flag=True) # For main table
@@ -24,7 +25,9 @@ def general():
         session['month_var'] = f'{choice}' # Pass choice to 'month_choice' func
         return redirect(url_for('month_choice'))
     return render_template('general.html', form=form, 
-                            df = df.to_html(header=False), data=data)
+                            df = df.to_html(header=False), data=data,
+                            title='Port Ins Per Month', max=1200, 
+                            labels=bar_labels, values=bar_values)
 
 @app.route('/ytd-report', methods = ['GET','POST'])
 def ytd_report():
@@ -32,12 +35,14 @@ def ytd_report():
     df = General.all_data(flag=False)
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, startrow = 0, merge_cells = False, sheet_name = "Sheet_1")
+    df.to_excel(writer, startrow = 0, merge_cells = False, 
+                sheet_name = "Sheet_1")
     workbook = writer.book
     worksheet = writer.sheets["Sheet_1"]
     writer.close()
     output.seek(0)
-    return send_file(output, attachment_filename="not-a-test.xlsx", as_attachment=True)
+    return send_file(output, attachment_filename="ytd-report.xlsx", 
+                    as_attachment=True)
     return redirect(url_for('general'))
 
 """
@@ -48,13 +53,16 @@ MONTHS JAN-DEC
 def month_choice():
     
     month = session.get('month_var', None)
+    bar_labels, bar_values, bar_colors = General.month_bar_gen(month = month)
     form = InputBar()
     choice = form.field.data
     df = General.clean_data(month)# Get dataframe from last input of InputBar(selectfield)
     if choice != 'All':       
         session['month_var'] = f'{choice}' # Pass choice to next iter of 'month_choice' func
         return redirect(url_for('month_choice'))
-    return render_template('months.html', data = df, form=form)
+    return render_template('months.html', data = df, form=form,
+                            title=f'{month}', max=400, 
+                            labels=bar_labels, values=bar_values)
 
 """
 VIP
@@ -66,6 +74,7 @@ def vip():
     form = InputBar()
     btns = VipButtons()
     choice = form.field.data
+    values, labels, colors = Vip.main_pie_gen()
     curr_month, past_month, diff, average, total, name = Vip.vip_main(flag=False)
     if btns.weave.data: # Really want to turn this into a dict
         session['vip_var'] = 'Weave' # Pass choice to 'vip_choice' func
@@ -94,7 +103,7 @@ def vip():
     return render_template('vip.html', data = { 
                             'curr_month': curr_month, 'past_month': past_month, 
                             'diff': diff, 'average': average, 'total': total,'name': name}, 
-                            form=form, btns=btns)
+                            form=form, btns=btns, set=zip(values, labels, colors))
 
 @app.route('/vip-report', methods = ['GET','POST'])
 def vip_report():
@@ -107,7 +116,8 @@ def vip_report():
     worksheet = writer.sheets["Sheet_1"]
     writer.close()
     output.seek(0)
-    return send_file(output, attachment_filename="vip-not-a-test.xlsx", as_attachment=True)
+    return send_file(output, attachment_filename="vip-report.xlsx",
+                    as_attachment=True)
     return redirect(url_for('vip'))
 
 @app.route('/vip-choice', methods = ['GET','POST'])  
@@ -116,7 +126,8 @@ def vip_choice():
     btns = VipButtons()
     form = InputBar()    
     choice = form.field.data
-    vip = session.get('vip_var', None)                 
+    vip = session.get('vip_var', None)
+    bar_labels, bar_values, bar_colors = Vip.vip_bar_gen(vip=vip)                 
     select, average, total, curr_month, past_month, diff, name = Vip.selector(vip)
     if btns.weave.data: ###Really want to turn this into a dict
         session['vip_var'] = 'Weave' # Pass choice to next iter of 'vip_choice' func
@@ -141,6 +152,7 @@ def vip_choice():
         return redirect(url_for('vip_choice'))
     if choice != 'All':
         return redirect(url_for('month_choice'))
-    return render_template('vip.html', data = {'select': select, 'average': average, 
+    return render_template('vip-choice.html', data = {'select': select, 'average': average, 
                             'total': total, 'curr_month': curr_month, 'past_month': past_month, 
-                            'diff': diff, 'name': name}, form=form, btns=btns)
+                            'diff': diff, 'name': name}, form=form, btns=btns, 
+                             max=50, labels=bar_labels, values=bar_values)

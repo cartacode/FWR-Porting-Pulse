@@ -8,16 +8,15 @@
     <a></i>{{btns.zen(class="btn btn-info shadow")}}</a>
     <a></i>{{btns.expectel(class="btn btn-info shadow")}}</a>
     <a></i>{{btns.intulse(class="btn btn-info shadow")}}</a>
-  </div>  
-<p>
-</p>
-<row>
-<div class="container col md-2">
+  </div>
+  <p>
+  </p>
+<div class="container">
     <h1>VIP Porting Pulse</h1> 
     <div class="container-fluid shadow">
     </div>
     <div>
-        <div class="content-section shadow col md-4">
+        <div class="content-section shadow">
             <h3><strong>VIP Metrics</strong></h3>
             <p class='text-muted'>Some <strong>{{ data['name'] }}</strong> porting metrics.
                 <ul class="list-group">
@@ -29,33 +28,51 @@
                 </ul>
             </p>
         </div>
-        </div>
-  </div>
-  <div class = "float-left">      
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-          <canvas id="chart" width="300" height="300"></canvas>
-          <script>
-            var pieData = [
-              {% for item, label, colors in set %}
-                {
-                  value: {{item}},
-                  label: "{{label}}",
-                  color: "{{colors}}"
-                },
-              {% endfor %}
-            ];
-            // get bar chart canvas
-            var mychart = document.getElementById("chart").getContext("2d");
-            steps = 10
-            max = {{ max }}
-            // draw pie chart
-            new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData);
-          </script>
-    </div>
-    </row>
       <div>
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+          <body>
+              <canvas id="chart" width="450" height="250"></canvas>
+              <script>
+                // bar chart data
+                var barData = {
+                  labels : [
+                    {% for item in labels %}
+                     "{{ item }}",
+                    {% endfor %}
+            ],
+                  datasets : [{
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    data : [
+                      {% for item in values %}
+                         "{{ item }}",
+                        {% endfor %}
+                ]
+                    }
+                  ]
+                }
+               // get bar chart canvas
+               var mychart = document.getElementById("chart").getContext("2d");
+                 steps = 10
+                 max = {{max}}
+               // draw bar chart
+               new Chart(mychart).Bar(barData, {
+                 scaleOverride: true,
+                 scaleSteps: steps,
+                 scaleStepWidth: Math.ceil(max / steps),
+                 scaleStartValue: 0,
+                 scaleShowVerticalLines: true,
+                 scaleShowGridLines : true,
+                 barShowStroke : true,
+                 scaleShowLabels: true
+                 }
+               );
+              </script>
+          </body>
         <a href={{ url_for('vip_report') }} class="btn btn-info shadow float-right">
           <i></i>Generate VIP Report!</a>
-</div>
-
+    </div>      
+  <p>
+  </p>
 {% endblock content %}
