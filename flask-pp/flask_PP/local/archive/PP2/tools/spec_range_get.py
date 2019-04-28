@@ -34,7 +34,7 @@ def get(wildcard, query):
 def get_wildcard():
     """get our wildcard variable for query"""
     
-    today = datetime.date(2019, 3, 3) #adjust desired starting date here
+    today = datetime.date(2019, 4, 21) #adjust desired starting date here
     counter = 0
     date_range = []
     while counter <= 20: #adjust how many days you want in range
