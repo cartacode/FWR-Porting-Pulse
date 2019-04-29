@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from flask_PP import db
+from flask_PP.local import vip_ids
 
 db.Model.metadata.reflect(db.engine)
 
@@ -106,11 +107,13 @@ class Vip(db.Model):
     def vip_pull(): #Pulls and formats data into preferred DF used for all func
 
         data = db.session.query(Vip).all()
-        df = pd.DataFrame([(d.month_name, d.vow26193, d.weave20193, 
-                        d.expectel59775, d.zang58, d.zen38640, 
-                        d.signalwire52284, d.intulse47037, d.month_index) for d in data], 
-                        columns=['Month Name', 'Vow', 'Weave', 'Expectel', 'Zang', 
-                                        'Zen','SignalWire', 'Intulse', 'Month Index'])
+        df = pd.DataFrame([(d.month_name, d.v, d.v1, 
+                        d.v2, d.v3, d.v4, d.v5, d.v6, d.month_index) for d in data], 
+                        columns=[vip_ids.df_columns['mn'], vip_ids.df_columns['v'],
+                                vip_ids.df_columns['v1'], vip_ids.df_columns['v2'],
+                                vip_ids.df_columns['v3'], vip_ids.df_columns['v4'],
+                                vip_ids.df_columns['v5'], vip_ids.df_columns['v6'],
+                                vip_ids.df_columns['mi']])
         df = df.replace(0, np.NaN)
         df = df.dropna()
         return df
@@ -144,7 +147,7 @@ class Vip(db.Model):
 
         df_dict = {}
 
-        vips = ['Vow', 'Weave', 'Expectel', 'Zang', 'Zen','SignalWire', 'Intulse']
+        vips = vip_ids.list_names['list']
         for v in vips:
             df = Vip.vip_pull()
             df = df.sort_values(by='Month Index', ascending=False).set_index('Month Index')
@@ -178,8 +181,7 @@ class Vip(db.Model):
         df = df.drop(columns=['Month Name', 'Month Index'])
         pie_list = df.values.tolist()
         values = [val for sublist in pie_list for val in sublist]
-        labels = ['Vow', 'Weave', 'Expectel', 'Zang', 
-                        'Zen','SignalWire', 'Intulse']
+        labels = vip_ids.list_names['list']
         colors = [
             "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
             "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",

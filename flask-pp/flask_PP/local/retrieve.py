@@ -1,5 +1,6 @@
 from credentials import REDSHIFT_SETTINGS
 from credentials import pg_sql
+from vip_ids import dbnames
 
 import datetime
 from collections import Counter
@@ -32,7 +33,6 @@ def get_wildcard():
     """
     Find range of days from/including last saturday to this past sunday
     """
-    
     today = datetime.date.today()
     idx = (today.weekday() + 1) 
     sun = today - datetime.timedelta(7+idx)
@@ -51,8 +51,7 @@ def get(wildcard, query):
     row = rs_cur.fetchall()
     result = ([i for i in row])
     rs_cur.close
-    result = tuple(result)
-    return result
+    return tuple(result)
 
 def count():
     query = """
@@ -60,8 +59,7 @@ SELECT "public"."trunking_portorder"."id" AS "id", "public"."trunking_portorder"
 FROM "public"."trunking_portorder"
 WHERE CAST("public"."trunking_portorder"."date_created" AS date) = %s
 GROUP BY "public"."trunking_portorder"."id", "public"."trunking_portorder"."customer_id"
-ORDER BY "public"."trunking_portorder"."id" ASC, "public"."trunking_portorder"."customer_id" """
-    
+ORDER BY "public"."trunking_portorder"."id" ASC, "public"."trunking_portorder"."customer_id" """ 
     port_count = 0
     vip_dict = {26193:0,20193:0,59775:0,58:0,38640:0,52284:0,47037:0}
 
@@ -83,7 +81,9 @@ def pgsql_connector():
     Connect to postgresql DB
     """
     try:
-        local_conn = pg2.connect(database = pg_sql['db_name'], user = pg_sql['postgres_user'], password = pg_sql['postgres_pw'])
+        local_conn = pg2.connect(database = pg_sql['db_name'], 
+                                user = pg_sql['postgres_user'], 
+                                password = pg_sql['postgres_pw'])
         return local_conn
     except:
         return "Local DB Connection is busted. **Investigate**"
@@ -97,7 +97,8 @@ def find_month():
     c = Counter(month_range) #Determine month by most common month entry in month_range
     month = str(c.most_common(1))[3:5]
     month_dict = {'01': 'January', '02': 'Feburary', '03': 'March', '04': 'April', 
-                    '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', 
+                    '05': 'May', '06': 'June', '07': 'July',
+                    '08': 'August', '09': 'September', 
                     '10': 'October', '11': 'November', '12': 'December'}
     return month_dict[month]
 
@@ -134,11 +135,11 @@ def insert_weekly(port_count, vip_dict):
     cur.execute(query,(port_count,month,))
     conn.commit() #^^Update month to date county
 
-    query = """UPDATE test_pp SET ytd = (SELECT SUM(month_total) FROM test_pp) WHERE month_name = (%s)"""
+    query = """UPDATE test_pp SET ytd = (SELECT SUM(month_total) FROM p_p) WHERE month_name = (%s)"""
     cur.execute(query,(month,))
     conn.commit() #^^Update yearly count
     
-    db_names_list = ['vow26193', 'weave20193', 'expectel59775','zang58', 'zen38640', 'signalwire52284','intulse47037']
+    db_names_list = [dbnames['dbnames']]
     vip_val_list = list(vip_dict.values()) #Convert to list of the values so match with DB names
 
     for dbname,vip_val in zip(db_names_list,vip_val_list): #Insert values from vip_dict 

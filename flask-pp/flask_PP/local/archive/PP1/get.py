@@ -56,7 +56,7 @@ def weekly_short(vip_dict):
 
     """simple VIP stats from weekly data gather, per request"""
 
-    vip_names = ['Vow(26193)', 'Weave(20193)', 'Expectel(59775)','Zang(58)', 'Zen(38640)','Signalwire(52284)','Intulse(47037)']
+    vip_names = []
     pres_tup = ()
 
     iter_dict = iter(vip_dict.values())

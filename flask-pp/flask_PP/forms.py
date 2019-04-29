@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField
 
+from flask_PP.local import vip_ids
+
 class InputBar(FlaskForm):
     
     choices = choices = [('All', '--'), ('January', 'January'), ('Feburary', 'Feburary'), ('March', 'March'), 
@@ -12,10 +14,10 @@ class InputBar(FlaskForm):
 
 class VipButtons(FlaskForm):
 
-    weave = SubmitField('Weave')
-    zang = SubmitField('Zang')
-    signalwire = SubmitField('SignalWire')
-    zen = SubmitField('Zen')
-    vow = SubmitField('Vow')
-    intulse = SubmitField('Intulse')
-    expectel = SubmitField('Expectel')
+    v1 = SubmitField(vip_ids.vips['v1'])
+    v3 = SubmitField(vip_ids.vips['v3'])
+    v5 = SubmitField(vip_ids.vips['v5'])
+    v4 = SubmitField(vip_ids.vips['v3'])
+    v = SubmitField(vip_ids.vips['v'])
+    v6 = SubmitField(vip_ids.vips['v6'])
+    v2 = SubmitField(vip_ids.vips['v2'])

@@ -84,7 +84,7 @@ def insert_weekly(week,port_count, select_month):
 def insert_vip(select_month,vip_count):
     """write weekly vip stats in DB from get.py"""
     
-    db_names_list = ['vow26193', 'weave20193', 'expectel59775','zang58', 'zen38640', 'signalwire52284','intulse47037']
+    db_names_list = []
     vip_val_list = list(vip_count.values()) #convert to list of the values so match with DB names
 
     conn = connect_db()
@@ -152,7 +152,7 @@ def write_weekly(select_month,port_count,avg,mtd,total,vip_count):
     """write our weekly report"""
 
     today = datetime.date.today()
-    vips = ['Vow(26193)', 'Weave(20193)', 'Expectel(59775)', 'Zang(58)', 'Zen(14449)', 'Signalwire(52284)', 'Intulse(47037)']
+    vips = []
     vip_count = list(vip_count.values())
     
     with open(f"PortReport{select_month}/report.txt", "w") as file:
@@ -187,7 +187,7 @@ def month_trending(previous_month,select_month):
     p_mtd = int(p_mtd[0])
     month_trend = ((mtd-p_mtd)/mtd)*100
 
-    db_names_list = ['vow26193', 'weave20193', 'expectel59775','zang58', 'zen38640', 'signalwire52284','intulse47037']
+    db_names_list = []
     trend_list = []
     vip_this_last = ()
     for each in db_names_list:
@@ -207,7 +207,7 @@ def write_monthly(select_month,total,comp_time,avg,mtd,crd):
 
     previous_month = prev_month(select_month)
     month_trend, trend_list, vip_this_last = month_trending(previous_month,select_month)
-    vips = ['Vow(26193)', 'Weave(20193)', 'Expectel(59775)', 'Zang(58)', 'Zen(14449)', 'Signalwire(52284)', 'Intulse(47037)']
+    vips = []
     with open(f"PortReport{select_month}/{select_month}-report.txt", "w") as file:
         file.write(f'YTD total port ins: {total}\nYTD average days per port(weekends included): {round(comp_time,2)}\n'
         + f'Average per week year to date: {avg}\n--\n{select_month} total: {mtd}\nTrend compared to'

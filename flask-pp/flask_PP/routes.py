@@ -2,6 +2,7 @@ from flask import render_template, url_for, redirect, flash, send_file, session
 from flask_PP import app
 from flask_PP.models import General, Vip
 from flask_PP.forms import InputBar, VipButtons
+from flask_PP.local import vip_ids
 
 from io import BytesIO
 import numpy as np 
@@ -76,26 +77,26 @@ def vip():
     btns = VipButtons() # Buttons for each Vip
     values, labels, colors = Vip.main_pie_gen()
     curr_month, past_month, diff, average, total, name = Vip.vip_main(flag=False)
-    if btns.weave.data: # Really want to turn this into a dict
-        session['vip_var'] = 'Weave' # Pass choice to 'vip_choice' func
+    if btns.v1.data: # Really want to turn this into a dict
+        session['vip_var'] = vip_ids.vips['v1'] # Pass choice to 'vip_choice' func
         return redirect(url_for('vip_choice')) 
-    elif btns.zang.data:
-        session['vip_var'] = 'Zang'
+    elif btns.v3.data:
+        session['vip_var'] = vip_ids.vips['v3']
         return redirect(url_for('vip_choice'))
-    elif btns.signalwire.data:
-        session['vip_var'] = 'SignalWire'
+    elif btns.v5.data:
+        session['vip_var'] = vip_ids.vips['v5']
         return redirect(url_for('vip_choice'))
-    elif btns.vow.data:
-        session['vip_var'] = 'Vow'
+    elif btns.v.data:
+        session['vip_var'] = vip_ids.vips['v']
         return redirect(url_for('vip_choice'))
-    elif btns.zen.data:
-        session['vip_var'] = 'Zen'
+    elif btns.v4.data:
+        session['vip_var'] = vip_ids.vips['v4']
         return redirect(url_for('vip_choice'))
-    elif btns.expectel.data:
-        session['vip_var'] = 'Expectel'
+    elif btns.v2.data:
+        session['vip_var'] = vip_ids.vips['v2']
         return redirect(url_for('vip_choice'))
-    elif btns.intulse.data:
-        session['vip_var'] = 'Intulse'
+    elif btns.v6.data:
+        session['vip_var'] = vip_ids.vips['v6']
         return redirect(url_for('vip_choice'))
     elif choice != 'All':
         session['month_var'] = f'{choice}'
@@ -129,26 +130,26 @@ def vip_choice():
     vip = session.get('vip_var', None) # Passed from vip()
     bar_labels, bar_values, bar_colors = Vip.vip_bar_gen(vip=vip)                 
     select, average, total, curr_month, past_month, diff, name = Vip.selector(vip)
-    if btns.weave.data: ###Really want to turn this into a dict
-        session['vip_var'] = 'Weave' # Pass choice to next iter of 'vip_choice' func
+    if btns.v1.data: ###Really want to turn this into a dict
+        session['vip_var'] = vip_ids.vips['v1'] # Pass choice to next iter of 'vip_choice' func
         return redirect(url_for('vip_choice'))
-    elif btns.zang.data:
-        session['vip_var'] = 'Zang'
+    elif btns.v3.data:
+        session['vip_var'] = vip_ids.vips['v3']
         return redirect(url_for('vip_choice'))
-    elif btns.signalwire.data:
-        session['vip_var'] = 'SignalWire'
+    elif btns.v5.data:
+        session['vip_var'] = vip_ids.vips['v5']
         return redirect(url_for('vip_choice'))
-    elif btns.vow.data:
-        session['vip_var'] = 'Vow'
+    elif btns.v.data:
+        session['vip_var'] = vip_ids.vips['v']
         return redirect(url_for('vip_choice'))
-    elif btns.zen.data:
-        session['vip_var'] = 'Zen'
+    elif btns.v4.data:
+        session['vip_var'] = vip_ids.vips['v4']
         return redirect(url_for('vip_choice'))
-    elif btns.expectel.data:
-        session['vip_var'] = 'Expectel'
+    elif btns.v2.data:
+        session['vip_var'] = vip_ids.vips['v2']
         return redirect(url_for('vip_choice'))
-    elif btns.intulse.data:
-        session['vip_var'] = 'Intulse'
+    elif btns.v6.data:
+        session['vip_var'] = vip_ids.vips['v6']
         return redirect(url_for('vip_choice'))
     if choice != 'All':
         return redirect(url_for('month_choice'))

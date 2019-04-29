@@ -5,6 +5,7 @@
 *.ipynb
 *.pya
 credentials.py
+vip_ids.py
 git-deploy
 /PortReport*/
 .DS_Store

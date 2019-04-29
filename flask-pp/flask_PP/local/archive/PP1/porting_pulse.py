@@ -174,7 +174,7 @@ class Porting_puls():
         month_value = self.sheet1.cell(row = 1, column = int(col)).value
         
         trend_tup = ()
-        names_list = ['Vow(26193)', 'Weave(20193)', 'Expectel(59775)','Zang(58)', 'Zen(38640)','Signalwire(52284)','Intulse(47037)']
+        names_list = []
         row_num = 11 #begin at vip1
         for each in names_list:
 
