@@ -153,8 +153,8 @@ class Vip(db.Model):
             df = df.sort_values(by='Month Index', ascending=False).set_index('Month Index')
             df = df.groupby(['Month Name', 'Month Index'], sort=False)[f'{v}'].max()
             df = pd.DataFrame(df)
-            df.loc['Total'] = df[f'{v}'].sum()
             df.loc['Average'] = df[f'{v}'].mean()
+            df.loc['Total'] = df[f'{v}'].sum()-df.loc['Average'].sum()
             df_dict[v]  = df
         return df_dict
 
