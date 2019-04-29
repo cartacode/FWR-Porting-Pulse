@@ -19,14 +19,13 @@ class General(db.Model):
                             'YTD Completion Time','CRD Per Hit'])
         return df
 
-    def all_data(flag=True): #
+    def all_data(flag=True):
         """
         For general/all and report,
         True for general page df, False for report df
         """
         df = General.gen_pull()
-        df = df.sort_values(by='Month Index', ascending=True).set_index('Month Name')
-        df = df.replace(0, '-')
+        df = df.sort_values(by='Month Index', ascending=True).set_index('Month Name').replace(0, '-')
         if flag:
             df = df.drop(columns=['Month Index', 'Year to Date', 'CRD Per Hit'])
         else:
