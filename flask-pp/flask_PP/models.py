@@ -2,12 +2,12 @@ import numpy as np
 import pandas as pd
 
 from flask_PP import db
-from flask_PP.local import vip_ids
+from flask_PP.local import vip_ids, credentials
 
 db.Model.metadata.reflect(db.engine)
 
 class General(db.Model):
-    __table__ = db.Model.metadata.tables['p_p']
+    __table__ = db.Model.metadata.tables[credentials.pg_sql['gen_table']]
 
     def gen_pull(): #Pull data and organize data from DB
 
@@ -102,7 +102,7 @@ class General(db.Model):
         return bar_labels, bar_values, bar_colors
 
 class Vip(db.Model):
-    __table__ = db.Model.metadata.tables['vip_p_p']
+    __table__ = db.Model.metadata.tables[credentials.pg_sql['vip_table']]
 
     def vip_pull(): #Pulls and formats data into preferred DF used for all func
 

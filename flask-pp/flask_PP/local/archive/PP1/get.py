@@ -77,7 +77,7 @@ GROUP BY "public"."trunking_portorder"."id", "public"."trunking_portorder"."cust
 ORDER BY "public"."trunking_portorder"."id" ASC, "public"."trunking_portorder"."customer_id" """
     
     port_count = 0
-    vip_dict = {26193:0,20193:0,59775:0,58:0,38640:0,52284:0,47037:0}
+    vip_dict = {}
 
     date_range = get_wildcard()
     for date in tqdm(date_range): #for each day in week, set SQL wildcard to date and run query for that date

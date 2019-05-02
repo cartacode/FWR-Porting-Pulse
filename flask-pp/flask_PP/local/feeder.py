@@ -1,5 +1,6 @@
 from credentials import REDSHIFT_SETTINGS
 from credentials import pg_sql
+import vip_ids
 
 import datetime
 from collections import Counter
@@ -52,7 +53,7 @@ ORDER BY "public"."trunking_portorder"."id" ASC, "public"."trunking_portorder"."
 def get_count(): # Run query for each day in range and get our counts
 
     port_count = 0
-    vip_dict = {26193:0,20193:0,59775:0,58:0,38640:0,52284:0,47037:0}
+    vip_dict = vip_ids.uids
     date_range = get_week_range()
     for date in date_range: #For each day in week, set SQL wildcard to date and run query for that date
         wildcard = date

@@ -22,7 +22,7 @@ def general():
     df = General.all_data(flag=True) # For main table
     data = General.clean_data(month="January") # For side "YTD METRICS"
     bar_labels, bar_values, bar_colors = General.bar_gen() # Bar graph
-    if choice != 'All':
+    if choice != '--':
         session['month_var'] = f'{choice}' # Pass choice to 'month_choice' func
         return redirect(url_for('month_choice'))
     return render_template('general.html', form=form, 
@@ -54,11 +54,13 @@ MONTHS JAN-DEC
 def month_choice():
     
     month = session.get('month_var', None) # Passed from general()
+    if month == 'All':
+        return redirect(url_for('general'))
     form = InputBar()
     choice = form.field.data
     df = General.clean_data(month)# Get dataframe from last input of InputBar(selectfield)
     bar_labels, bar_values, bar_colors = General.month_bar_gen(month = month)
-    if choice != 'All':       
+    if choice != '--':       
         session['month_var'] = f'{choice}' # Pass choice to next iter of 'month_choice' func
         return redirect(url_for('month_choice'))
     return render_template('months.html', data = df, form=form,
@@ -98,7 +100,7 @@ def vip():
     elif btns.v6.data:
         session['vip_var'] = vip_ids.vips['v6']
         return redirect(url_for('vip_choice'))
-    elif choice != 'All':
+    elif choice != '--':
         session['month_var'] = f'{choice}'
         return redirect(url_for('month_choice'))
     return render_template('vip.html', data = { 
@@ -151,7 +153,7 @@ def vip_choice():
     elif btns.v6.data:
         session['vip_var'] = vip_ids.vips['v6']
         return redirect(url_for('vip_choice'))
-    if choice != 'All':
+    if choice != '--':
         return redirect(url_for('month_choice'))
     return render_template('vip-choice.html', data = {'select': select, 'average': average, 
                             'total': total, 'curr_month': curr_month, 'past_month': past_month, 
