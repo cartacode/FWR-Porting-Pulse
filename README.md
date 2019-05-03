@@ -14,6 +14,7 @@ The dashboard also supports report generation for all “general” and “VIP�
 
 ![Alt Text](https://github.com/wilsonmacleod/FWR-Porting-Pulse/blob/master/flask-pp/flask_PP/static/demo-gif.gif)
 
-### *Disclaimer*: All numbers and names represented in the GIF above do NOT reflect any accurate business information, metrics or names associated with Flowroute LLC or any of it's customers. This is a production build with names subsituted for masks and ALL metrics shown are pulled from my testing database.
+### *Disclaimer*: All numbers and names represented in the GIF above do NOT reflect any accurate business information, metrics or names associated with Flowroute LLC or any of it's customers. 
+### This is a local build with names subsituted for masks and ALL metrics shown are pulled from my testing database.
 
 

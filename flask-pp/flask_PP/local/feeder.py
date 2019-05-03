@@ -171,7 +171,7 @@ def find_month(): # Find what month our save belongs in
 def find_week(month): # Find correct week in our month to input
 
     conn = pgsql_connector()
-    query = """SELECT week1, week2, week3, week4, week5 FROM p_p WHERE month_name = (%s)"""
+    query = """SELECT week1, week2, week3, week4, week5 FROM _2019_pp WHERE month_name = (%s)"""
     cur.execute(query,(month,))
     get_weeks = cur.fetchall()
     clean_weeks = [i for i in get_weeks[0]]
@@ -186,14 +186,14 @@ def insert_sql(port_count, vip_dict, average, crd_perc): # Update and commit dat
 
     conn = pgsql_connector()
     cur = conn.cursor()
-    cur.execute(sql.SQL("UPDATE p_p SET {} = %s WHERE month_name = %s").format(sql.Identifier(week)),(port_count,month,))
+    cur.execute(sql.SQL("UPDATE _2019_pp SET {} = %s WHERE month_name = %s").format(sql.Identifier(week)),(port_count,month,))
     conn.commit() #^^ Set weekly count
 
-    query = """UPDATE p_p SET month_total = month_total + (%s) WHERE month_name = (%s)"""
+    query = """UPDATE _2019_pp SET month_total = month_total + (%s) WHERE month_name = (%s)"""
     cur.execute(query,(port_count,month,))
     conn.commit() #^^ Update month to date county
 
-    query = """UPDATE p_p SET ytd = (SELECT SUM(month_total) FROM p_p) WHERE month_name = (%s)"""
+    query = """UPDATE _2019_pp SET ytd = (SELECT SUM(month_total) FROM _2019_pp) WHERE month_name = (%s)"""
     cur.execute(query,(month,))
     conn.commit() #^^ Update yearly count
     
@@ -201,14 +201,14 @@ def insert_sql(port_count, vip_dict, average, crd_perc): # Update and commit dat
     vip_val_list = list(vip_dict.values()) # Convert to list of the values so match with DB names
 
     for dbname,vip_val in zip(db_names_list,vip_val_list): # Insert values from vip_dict 
-        cur.execute(sql.SQL("UPDATE vip_p_p SET {} = {} + %s WHERE month_name = %s;").format(sql.Identifier(dbname),sql.Identifier(dbname)),(vip_val,month,))   
+        cur.execute(sql.SQL("UPDATE _2019_vip SET {} = {} + %s WHERE month_name = %s;").format(sql.Identifier(dbname),sql.Identifier(dbname)),(vip_val,month,))   
     conn.commit()
 
-    query = """UPDATE p_p SET ytd_comp_time = %s WHERE month_name = %s;"""
+    query = """UPDATE _2019_pp SET ytd_comp_time = %s WHERE month_name = %s;"""
     cur.execute(query,(average,month,)) #^^ Update ytd completion time
     conn.commit()
 
-    query = """UPDATE p_p SET month_crd_hit = %s WHERE month_name = %s;"""
+    query = """UPDATE _2019_pp SET month_crd_hit = %s WHERE month_name = %s;"""
     cur.execute(query,(crd_perc,month,)) #^^ Update ytd CRD%
     conn.commit()
     conn.close()

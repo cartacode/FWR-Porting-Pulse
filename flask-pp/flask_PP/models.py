@@ -7,7 +7,7 @@ from flask_PP.local import vip_ids, credentials
 db.Model.metadata.reflect(db.engine)
 
 class General(db.Model):
-    __table__ = db.Model.metadata.tables[credentials.pg_sql['gen_table']]
+    __table__ = db.Model.metadata.tables['_2019_pp']
 
     def gen_pull(): #Pull data and organize data from DB
 
@@ -102,7 +102,7 @@ class General(db.Model):
         return bar_labels, bar_values, bar_colors
 
 class Vip(db.Model):
-    __table__ = db.Model.metadata.tables[credentials.pg_sql['vip_table']]
+    __table__ = db.Model.metadata.tables['_2019_vip']
 
     def vip_pull(): #Pulls and formats data into preferred DF used for all func
 
