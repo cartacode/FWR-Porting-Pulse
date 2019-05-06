@@ -171,13 +171,17 @@ def find_month(): # Find what month our save belongs in
 def find_week(month): # Find correct week in our month to input
 
     conn = pgsql_connector()
+    cur = conn.cursor()
     query = """SELECT week1, week2, week3, week4, week5 FROM _2019_pp WHERE month_name = (%s)"""
     cur.execute(query,(month,))
     get_weeks = cur.fetchall()
     clean_weeks = [i for i in get_weeks[0]]
-    for each in clean_weeks:
-        if each == 0:
-            return each
+    week_columns = ['week1', 'week2', 'week3', 'week4', 'week5']
+    zip_weeks = tuple(zip(week_columns, clean_weeks))
+    for week,quantity in zip_weeks:
+        if quantity == 0:
+            return week
+
 
 def insert_sql(port_count, vip_dict, average, crd_perc): # Update and commit data to pgsql table
 

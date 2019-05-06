@@ -1,13 +1,11 @@
 *.pyc 
 *.xlsx
 *.txt
-*.xls
 *.ipynb
-*.pya
 credentials.py
 vip_ids.py
 git-deploy
 /PortReport*/
 .DS_Store
 */__pycache__/*
-/.DS_Store
+pp_env/

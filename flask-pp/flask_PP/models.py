@@ -114,8 +114,7 @@ class Vip(db.Model):
                                 vip_ids.df_columns['v3'], vip_ids.df_columns['v4'],
                                 vip_ids.df_columns['v5'], vip_ids.df_columns['v6'],
                                 vip_ids.df_columns['mi']])
-        df = df.replace(0, np.NaN)
-        df = df.dropna()
+        df = df[df.sum(axis=1)>df['Month Index']]
         return df
 
     def vip_main(flag):
