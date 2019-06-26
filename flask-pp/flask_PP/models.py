@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from flask_PP import db
-from flask_PP.local import vip_ids, credentials
+from flask_PP.local import vip_ids
 
 db.Model.metadata.reflect(db.engine)
 
@@ -15,9 +15,11 @@ class General(db.Model):
         df = pd.DataFrame([(d.month_name, d.week1, d.week2, d.week3, 
                             d.week4, d.week5, d.month_total, d.ytd, d.month_index, 
                             d.ytd_comp_time, d.month_crd_hit) for d in data], 
-                  columns=['Month Name', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 
-                            'Week 5','Month Total', 'Year to Date', 'Month Index', 
-                            'YTD Completion Time','CRD Per Hit'])
+                            columns=[
+                                    'Month Name', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 
+                                    'Week 5','Month Total', 'Year to Date', 'Month Index', 
+                                    'YTD Completion Time','CRD Per Hit'
+                                        ])
         return df
 
     def all_data(flag=True):
@@ -31,7 +33,7 @@ class General(db.Model):
             df = df.drop(columns=['Month Index', 'Year to Date', 'CRD Per Hit'])
         else:
             df = df.drop(columns=[('Month Index')])
-        df = df[df['Week 1']!='-']
+        df = df[df['Week 1'] != '-']
         return df
     
     def get_df(): #Pull, clean, create datapoints
@@ -50,12 +52,12 @@ class General(db.Model):
         
         df = General.get_df()
         if month != 'All':
-            df = df[df['Month Name']==f'{month}']
+            df = df[df['Month Name'] == f'{month}']
         else:
             df = General.all_data(flag=True) #If user selects '--'
             return df                        
         for index, row in df.iterrows():
-            df = { 'Month': f'{month}', 'Week 1': row['Week 1'],
+            df = {'Month': f'{month}', 'Week 1': row['Week 1'],
                 'Week 2': row['Week 2'], 'Week 3': row['Week 3'], 
                 'Week 4': row['Week 4'], 'Week 5': row['Week 5'], 
                 'Month Total': row['Month Total'], 'Year To Date': row['Year to Date'], 
@@ -69,37 +71,29 @@ class General(db.Model):
         data = db.session.query(General).all()
         df = pd.DataFrame([(d.month_name, d.week1, d.week2, d.week3, 
                     d.week4, d.week5, d.month_total, d.month_index) for d in data], 
-          columns=['Month Name', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 
-                    'Week 5','Month Total', 'Month Index'])
+                            columns=['Month Name', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 
+                                    'Week 5','Month Total', 'Month Index'])
         df = df.sort_values(by='Month Index', ascending=True).set_index('Month Index')
-        df = df[df['Week 1']!=0]
-        bar_colors = [
-        "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-        "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-        "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
+        df = df[df['Week 1'] != 0]
         bar_labels = df['Month Name'].values.tolist()
         bar_values = df['Month Total'].tolist()
-        return bar_labels, bar_values, bar_colors
+        return bar_labels, bar_values
     
     def month_bar_gen(month): #Bar plot generator for months
 
         data = db.session.query(General).all()
         df = pd.DataFrame([(d.month_name, d.week1, d.week2, d.week3, 
                             d.week4, d.week5, d.month_total, d.month_index) for d in data], 
-                columns=['Month Name', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 
-                            'Week 5','Month Total', 'Month Index'])
+                            columns=['Month Name', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 
+                                        'Week 5','Month Total', 'Month Index'])
         df = df.sort_values(by='Month Index', ascending=True).set_index('Month Index')
-        df = df[df['Week 1']!=0]
-        df = df[df['Month Name']==f'{month}']
+        df = df[df['Week 1'] != 0]
+        df = df[df['Month Name'] == f'{month}']
         df = df.drop(columns=['Month Name', 'Month Total'])
-        bar_colors = [
-        "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-        "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-        "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
         bar_labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5',]
         bar_values = df.values.tolist()
         bar_values = [val for sublist in bar_values for val in sublist] #Flatten nested list
-        return bar_labels, bar_values, bar_colors
+        return bar_labels, bar_values
 
 class Vip(db.Model):
     __table__ = db.Model.metadata.tables['_2019_vip']
@@ -108,13 +102,13 @@ class Vip(db.Model):
 
         data = db.session.query(Vip).all()
         df = pd.DataFrame([(d.month_name, d.v, d.v1, 
-                        d.v2, d.v3, d.v4, d.v5, d.v6, d.month_index) for d in data], 
-                        columns=[vip_ids.df_columns['mn'], vip_ids.df_columns['v'],
+                            d.v2, d.v3, d.v4, d.v5, d.v6, d.month_index) for d in data], 
+                            columns=[vip_ids.df_columns['mn'], vip_ids.df_columns['v'],
                                 vip_ids.df_columns['v1'], vip_ids.df_columns['v2'],
                                 vip_ids.df_columns['v3'], vip_ids.df_columns['v4'],
                                 vip_ids.df_columns['v5'], vip_ids.df_columns['v6'],
                                 vip_ids.df_columns['mi']])
-        df = df[df.sum(axis=1)>df['Month Index']]
+        df = df[df.sum(axis=1) > df['Month Index']]
         return df
 
     def vip_main(flag):
@@ -135,10 +129,10 @@ class Vip(db.Model):
             df.loc['Total'] = df.sum(numeric_only=True) 
             curr_month = df['total'][0]
             past_month = df['total'][1]
-            diff = round(((curr_month-past_month)/curr_month)*100,2)
+            diff = round(((curr_month-past_month)/curr_month)*100, 2)
             df = df.reset_index()
-            average = int(df[df['Month Index']=='Average']['total'])
-            total = int(df[df['Month Index']=='Total']['total'])-average 
+            average = int(df[df['Month Index'] == 'Average']['total'])
+            total = int(df[df['Month Index'] == 'Total']['total'])-average 
             name = 'VIP Total'
             return curr_month, past_month, diff, average, total, name
     
@@ -154,18 +148,18 @@ class Vip(db.Model):
             df = pd.DataFrame(df)
             df.loc['Average'] = df[f'{v}'].mean()
             df.loc['Total'] = df[f'{v}'].sum()-df.loc['Average'].sum()
-            df_dict[v]  = df
+            df_dict[v] = df
         return df_dict
 
     def selector(vip): #Get DF and metrics per vip_choice
 
         df_dict = Vip.get_vip()
         select = df_dict[f'{vip}']
-        average = select[f'{vip}']['Average']
+        average = round(select[f'{vip}']['Average'], 2)
         total = select[f'{vip}']['Total']
         curr_month = select[f'{vip}'][0]
         past_month = select[f'{vip}'][1]
-        diff = round(((curr_month-past_month)/curr_month)*100,2)
+        diff = round(((curr_month-past_month)/curr_month)*100, 2)
         name = [col for col in df_dict[f'{vip}'].columns]
         name = name[0]
         return select, average, total, curr_month, past_month, diff, name
@@ -176,7 +170,7 @@ class Vip(db.Model):
         df = df.sort_values(by='Month Index', ascending=True).set_index('Month Index')
         df.loc['Total'] = df.sum(numeric_only=True)
         df = df.reset_index()
-        df = df[df["Month Index"]=='Total']
+        df = df[df["Month Index"] == 'Total']
         df = df.drop(columns=['Month Name', 'Month Index'])
         pie_list = df.values.tolist()
         values = [val for sublist in pie_list for val in sublist]
@@ -196,8 +190,4 @@ class Vip(db.Model):
         df = df.groupby(['Month Name', "Month Index"], sort=False)[f'{vip}'].max().reset_index()
         bar_labels = df['Month Name'].values.tolist()
         bar_values = df[f'{vip}'].values.tolist()
-        bar_colors = [
-            "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-            "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-            "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
-        return bar_labels, bar_values, bar_colors
+        return reversed(bar_labels), reversed(bar_values)

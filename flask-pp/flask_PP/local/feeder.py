@@ -1,13 +1,11 @@
-from credentials import REDSHIFT_SETTINGS
-from credentials import pg_sql
-import vip_ids
-
 import datetime
 from collections import Counter
-
 import psycopg2 as pg2
 from psycopg2 import sql
 
+from credentials import REDSHIFT_SETTINGS
+from credentials import pg_sql
+import vip_ids
 
 """
 ===GET COUNT DATA FROM REDSHIFT/METABASE===
@@ -31,7 +29,7 @@ def get_week_range(): #Count query range weekly last Sun to this Sat
     today = datetime.date.today()
     idx = (today.weekday() + 1) 
     sun = today - datetime.timedelta(7+idx)
-    date_range = [(sun + datetime.timedelta(day)) for day in range(0,7)] 
+    date_range = [(sun + datetime.timedelta(day)) for day in range(0, 7)] 
     return date_range
 
 def count_query(wildcard): # Query returns PONs and UIDs for each order
@@ -57,11 +55,11 @@ def get_count(): # Run query for each day in range and get our counts
     date_range = get_week_range()
     for date in date_range: #For each day in week, set SQL wildcard to date and run query for that date
         wildcard = date
-        for pon,uid in count_query(wildcard):
+        for pon, uid in count_query(wildcard):
           port_count += 1
           if uid in vip_dict:
             vip_dict[uid] += 1
-    return port_count,vip_dict
+    return port_count, vip_dict
     
 """
 ===GET 'ADVANCED' DATA FROM REDSHIFT/METABASE===
@@ -72,7 +70,7 @@ def get_year_range(): # Find all dates star of year to today
     today = datetime.date.today()
     start_date = datetime.date(2019, 1, 1)
     diff = abs((start_date - today).days)+1 # Plus 1 for range
-    date_range = [(today - datetime.timedelta(day)) for day in range(0,diff)] 
+    date_range = [(today - datetime.timedelta(day)) for day in range(0, diff)] 
     return date_range
 
 def get(wildcard, flag=True):
@@ -98,9 +96,9 @@ WHERE CAST("public"."trunking_portorder"."date_created" AS date) = CAST(%s AS da
     rs_cur.execute(sql.SQL(query), (wildcard,))
     row = rs_cur.fetchall()
     result = ()
-    for c,d in row:
+    for c, d in row:
         if c != None and d != None:
-            result += (c,d)
+            result += (c, d)
     rs_cur.close
     return list(result)
 
@@ -112,7 +110,7 @@ def query_cycle(flag):
     datelist = []
     for date in get_year_range():
         wildcard = date
-        for each in get(wildcard,flag):
+        for each in get(wildcard, flag):
             datelist.append(each)
     return datelist
 
@@ -121,8 +119,8 @@ def get_average(): # Calculate average comp time from per date data list
     datelist = query_cycle(flag=True)
     created = datelist[0::2]
     completed = datelist[1::2]
-    port_length=[abs((a-b).days) for a,b in zip(created, completed)]
-    port_day = [day for day in port_length if day<365] # Remove anomalies information
+    port_length=[abs((a-b).days) for a, b in zip(created, completed)]
+    port_day = [day for day in port_length if day < 365] # Remove anomalies information
     total_days = sum(port_day)
     ports = int(len(datelist)/2)
     return round(total_days/ports, 2)
@@ -135,11 +133,11 @@ def get_crd_perc(): # Calculate average CRD hit from per date data list
     crd_diff=[abs((a-b).days) for a,b in zip(crd, actual_comp)]
     score = {'hit': 0, 'total': 0}
     for each in crd_diff:
-        if int(each)==1:
+        if int(each) == 1:
             score['hit'] += 1
             score['total'] += 1
         else:
-            score['total'] +=1
+            score['total'] += 1
     return round(score['hit']/score['total'], 2)
 
 """
