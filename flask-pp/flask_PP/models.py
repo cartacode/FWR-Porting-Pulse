@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+from flask import current_app
 from flask_PP import db
 from flask_PP.local import vip_ids
 
