@@ -1,6 +1,6 @@
 # Porting Pulse 
 
-A dashboard I made for showcasing metrics for my department at Flowroute. 
+A dashboard I made for showcasing metrics. 
 
 ## Basic outline:
 
